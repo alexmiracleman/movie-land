@@ -3,6 +3,8 @@ package com.movieland.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -15,8 +17,6 @@ public class Movie {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movies_id_sequence")
-    @SequenceGenerator(name = "movies_id_sequence", sequenceName = "movies_id_sequence", allocationSize = 1)
     private int id;
 
     @Column(name = "name_russian")
@@ -28,9 +28,6 @@ public class Movie {
     @Column(name = "year_of_release")
     private int yearOfRelease;
 
-    @Column(name = "genre")
-    private String genre;
-
     @Column(name = "rating", columnDefinition = "NUMERIC(8,2)")
     private Double rating;
 
@@ -41,4 +38,17 @@ public class Movie {
     @JoinColumn(name = "poster_id", referencedColumnName = "id")
     private Poster poster;
 
+    @ManyToMany (cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "movies_genre_map",
+            joinColumns = @JoinColumn(
+                    name = "movie_id",
+                    referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "genre_id",
+                    referencedColumnName = "id"
+            )
+    )
+    private List<Genre> genres;
 }

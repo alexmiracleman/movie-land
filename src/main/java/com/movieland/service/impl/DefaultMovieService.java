@@ -1,6 +1,5 @@
 package com.movieland.service.impl;
 
-import com.movieland.entity.Genre;
 import com.movieland.entity.Movie;
 import com.movieland.repository.GenreRepository;
 import com.movieland.repository.MovieRepository;
@@ -9,9 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -42,37 +40,29 @@ public class DefaultMovieService implements MovieService {
 
     @Override
     public List<Movie> getRandomMovies() {
-        List<Movie> allMovies = movieRepository.findAll();
-        List<Integer> random = new Random().ints(0, allMovies.size())
-                .distinct()
-                .limit(3)
-                .boxed()
-                .toList();
-        return (List.of(allMovies.get(random.get(0)), allMovies.get(random.get(1)), allMovies.get(random.get(2))));
+        return movieRepository.findThreeRandomMovies();
     }
 
     @Override
     public List<Movie> getMoviesByGenre(int genreId, String rating, String price) {
-        Optional<Genre> genre = genreRepository.findById(genreId);
-        if (genre.isPresent()) {
-            if (rating == null && price != null) {
-                if (price.equals("asc")) {
-                    return movieRepository.findAllByGenreContainingOrderByPriceAsc(genre.get().getName());
-                }
-                if (price.equals("desc")) {
-                    return movieRepository.findAllByGenreContainingOrderByPriceDesc(genre.get().getName());
-                }
+        List<Movie> movies = genreRepository.findById(genreId).getMovies();
+        if (rating == null && price != null) {
+            if (price.equals("asc")) {
+                return movies.stream().sorted(Comparator.comparing(Movie::getPrice)).toList();
             }
-            if (price == null && rating != null) {
-                if (rating.equals("desc")) {
-                    return movieRepository.findAllByGenreContainingOrderByRatingDesc(genre.get().getName());
-                }
-            }
-            if (price == null && rating == null) {
-                return movieRepository.findAllByGenreContaining(genre.get().getName());
+            if (price.equals("desc")) {
+                return movies.stream().sorted(Comparator.comparing(Movie::getPrice).reversed()).toList();
             }
         }
-        return movieRepository.findAll();
+        if (price == null && rating != null) {
+            if (rating.equals("desc")) {
+                return movies.stream().sorted(Comparator.comparing(Movie::getRating).reversed()).toList();
+            }
+        }
+        return movies;
     }
 
 }
+
+
+

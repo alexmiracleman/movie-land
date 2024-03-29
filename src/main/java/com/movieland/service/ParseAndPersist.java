@@ -41,7 +41,6 @@ public class ParseAndPersist {
             String rus = null;
             String eng = null;
             String year = null;
-            String genre = null;
             String rating = null;
             String price = null;
             while ((line = reader.readLine()) != null) {
@@ -67,13 +66,6 @@ public class ParseAndPersist {
                         line = reader.readLine();
                     }
                 }
-                if (line.length() < 60 && Character.isLowerCase(line.codePointAt(0)) && !line.contains(":")) {
-                    genre = line;
-                    line = reader.readLine();
-                    while (line.isEmpty()) {
-                        line = reader.readLine();
-                    }
-                }
                 if (line.contains("rating:")) {
                     rating = line.substring(line.indexOf(":") + 1);
                     line = reader.readLine();
@@ -91,13 +83,12 @@ public class ParseAndPersist {
                         break;
                     }
                 }
-                if (rus != null && eng != null && year != null && genre != null && rating != null && price != null) {
+                if (rus != null && eng != null && year != null && rating != null && price != null) {
 
                     Movie movie = Movie.builder()
                             .nameRussian(rus)
                             .nameNative(eng)
                             .yearOfRelease(Integer.parseInt(year))
-                            .genre(genre)
                             .rating(Double.valueOf(rating))
                             .price(Double.valueOf(price))
                             .poster(posterToSave)
@@ -108,7 +99,6 @@ public class ParseAndPersist {
                     rus = null;
                     eng = null;
                     year = null;
-                    genre = null;
                     rating = null;
                     price = null;
                 }
