@@ -10,8 +10,7 @@ import java.util.List;
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
-    @Query(value = "SELECT id, name_native, name_russian, poster_id, price, rating, \n" +
-                    "year_of_release FROM movies ORDER BY random() LIMIT 3", nativeQuery = true)
+    @Query(value = "SELECT * FROM movies ORDER BY random() LIMIT 3", nativeQuery = true)
     List<Movie> findThreeRandomMovies();
 
     List<Movie> findAllByOrderByRatingDesc();

@@ -2,9 +2,6 @@ package com.movieland.controller;
 
 import com.movieland.dto.MovieDto;
 import com.movieland.mapper.MovieMapper;
-import com.movieland.repository.MovieRepository;
-import com.movieland.repository.PosterRepository;
-import com.movieland.service.GenreService;
 import com.movieland.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

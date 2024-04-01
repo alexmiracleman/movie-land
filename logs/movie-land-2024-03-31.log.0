@@ -1,0 +1,135 @@
+2024-03-31 13:31:01 [main] INFO  : Starting MovieLandApplication using Java 21.0.2 with PID 55320 (C:\projects\movie-land\target\classes started by sanek in C:\projects\movie-land)
+2024-03-31 13:31:01 [main] INFO  : No active profile set, falling back to 1 default profile: "default"
+2024-03-31 13:31:03 [main] INFO  : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-03-31 13:31:03 [main] INFO  : Finished Spring Data repository scanning in 98 ms. Found 2 JPA repository interfaces.
+2024-03-31 13:31:04 [main] INFO  : Tomcat initialized with port 8080 (http)
+2024-03-31 13:31:04 [main] INFO  : Initializing ProtocolHandler ["http-nio-8080"]
+2024-03-31 13:31:04 [main] INFO  : Starting service [Tomcat]
+2024-03-31 13:31:04 [main] INFO  : Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-03-31 13:31:04 [main] INFO  : Initializing Spring embedded WebApplicationContext
+2024-03-31 13:31:04 [main] INFO  : Root WebApplicationContext: initialization completed in 2609 ms
+2024-03-31 13:31:04 [main] INFO  : HikariPool-1 - Starting...
+2024-03-31 13:31:05 [main] INFO  : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@498a612d
+2024-03-31 13:31:05 [main] INFO  : HikariPool-1 - Start completed.
+2024-03-31 13:31:05 [main] INFO  : Flyway Community Edition 9.22.3 by Redgate
+2024-03-31 13:31:05 [main] INFO  : See release notes here: https://rd.gt/416ObMi
+2024-03-31 13:31:05 [main] INFO  : 
+2024-03-31 13:31:05 [main] INFO  : Database: jdbc:postgresql://localhost:5432/movieland (PostgreSQL 16.1)
+2024-03-31 13:31:05 [main] WARN  : Flyway upgrade recommended: PostgreSQL 16.1 is newer than this version of Flyway and support has not been tested. The latest supported version of PostgreSQL is 15.
+2024-03-31 13:31:05 [main] INFO  : Successfully validated 4 migrations (execution time 00:00.100s)
+2024-03-31 13:31:05 [main] INFO  : Current version of schema "public": 1.2
+2024-03-31 13:31:05 [main] INFO  : Migrating schema "public" to version "1.3 - drop posters table add picture path into movies"
+2024-03-31 13:31:05 [main] ERROR : Migration of schema "public" to version "1.3 - drop posters table add picture path into movies" failed! Changes successfully rolled back.
+2024-03-31 13:31:05 [main] WARN  : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Migration V1.3__drop_posters_table_add_picture_path_into_movies.sql failed
+--------------------------------------------------------------------------
+SQL State  : 42601
+Error Code : 0
+Message    : ERROR: syntax error at or near "not"
+  Position: 15
+Location   : db/migration/V1.3__drop_posters_table_add_picture_path_into_movies.sql (C:\projects\movie-land\target\classes\db\migration\V1.3__drop_posters_table_add_picture_path_into_movies.sql)
+Line       : 7
+Statement  : drop table if not exists posters
+
+2024-03-31 13:31:05 [main] INFO  : HikariPool-1 - Shutdown initiated...
+2024-03-31 13:31:05 [main] INFO  : HikariPool-1 - Shutdown completed.
+2024-03-31 13:31:05 [main] INFO  : Stopping service [Tomcat]
+2024-03-31 13:31:05 [main] INFO  : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-03-31 13:31:05 [main] ERROR : Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Migration V1.3__drop_posters_table_add_picture_path_into_movies.sql failed
+--------------------------------------------------------------------------
+SQL State  : 42601
+Error Code : 0
+Message    : ERROR: syntax error at or near "not"
+  Position: 15
+Location   : db/migration/V1.3__drop_posters_table_add_picture_path_into_movies.sql (C:\projects\movie-land\target\classes\db\migration\V1.3__drop_posters_table_add_picture_path_into_movies.sql)
+Line       : 7
+Statement  : drop table if not exists posters
+
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1786)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:312)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1231)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:949)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at com.movieland.MovieLandApplication.main(MovieLandApplication.java:12)
+Caused by: org.flywaydb.core.internal.command.DbMigrate$FlywayMigrateException: Migration V1.3__drop_posters_table_add_picture_path_into_movies.sql failed
+--------------------------------------------------------------------------
+SQL State  : 42601
+Error Code : 0
+Message    : ERROR: syntax error at or near "not"
+  Position: 15
+Location   : db/migration/V1.3__drop_posters_table_add_picture_path_into_movies.sql (C:\projects\movie-land\target\classes\db\migration\V1.3__drop_posters_table_add_picture_path_into_movies.sql)
+Line       : 7
+Statement  : drop table if not exists posters
+
+	at org.flywaydb.core.internal.command.DbMigrate.doMigrateGroup(DbMigrate.java:382)
+	at org.flywaydb.core.internal.command.DbMigrate.lambda$applyMigrations$1(DbMigrate.java:272)
+	at org.flywaydb.core.internal.jdbc.TransactionalExecutionTemplate.execute(TransactionalExecutionTemplate.java:55)
+	at org.flywaydb.core.internal.command.DbMigrate.applyMigrations(DbMigrate.java:271)
+	at org.flywaydb.core.internal.command.DbMigrate.migrateGroup(DbMigrate.java:244)
+	at org.flywaydb.core.internal.command.DbMigrate.lambda$migrateAll$0(DbMigrate.java:139)
+	at org.flywaydb.core.internal.database.postgresql.PostgreSQLAdvisoryLockTemplate.execute(PostgreSQLAdvisoryLockTemplate.java:73)
+	at org.flywaydb.core.internal.database.postgresql.PostgreSQLAdvisoryLockTemplate.lambda$execute$0(PostgreSQLAdvisoryLockTemplate.java:56)
+	at org.flywaydb.core.internal.jdbc.TransactionalExecutionTemplate.execute(TransactionalExecutionTemplate.java:55)
+	at org.flywaydb.core.internal.database.postgresql.PostgreSQLAdvisoryLockTemplate.execute(PostgreSQLAdvisoryLockTemplate.java:56)
+	at org.flywaydb.core.internal.database.postgresql.PostgreSQLConnection.lock(PostgreSQLConnection.java:96)
+	at org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory.lock(JdbcTableSchemaHistory.java:144)
+	at org.flywaydb.core.internal.command.DbMigrate.migrateAll(DbMigrate.java:139)
+	at org.flywaydb.core.internal.command.DbMigrate.migrate(DbMigrate.java:97)
+	at org.flywaydb.core.Flyway.lambda$migrate$0(Flyway.java:188)
+	at org.flywaydb.core.FlywayExecutor.execute(FlywayExecutor.java:213)
+	at org.flywaydb.core.Flyway.migrate(Flyway.java:140)
+	at org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer.afterPropertiesSet(FlywayMigrationInitializer.java:66)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1833)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1782)
+	... 18 common frames omitted
+Caused by: org.flywaydb.core.internal.sqlscript.FlywaySqlScriptException: Migration V1.3__drop_posters_table_add_picture_path_into_movies.sql failed
+--------------------------------------------------------------------------
+SQL State  : 42601
+Error Code : 0
+Message    : ERROR: syntax error at or near "not"
+  Position: 15
+Location   : db/migration/V1.3__drop_posters_table_add_picture_path_into_movies.sql (C:\projects\movie-land\target\classes\db\migration\V1.3__drop_posters_table_add_picture_path_into_movies.sql)
+Line       : 7
+Statement  : drop table if not exists posters
+
+	at org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor.handleException(DefaultSqlScriptExecutor.java:267)
+	at org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor.executeStatement(DefaultSqlScriptExecutor.java:222)
+	at org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor.execute(DefaultSqlScriptExecutor.java:126)
+	at org.flywaydb.core.internal.resolver.sql.SqlMigrationExecutor.executeOnce(SqlMigrationExecutor.java:68)
+	at org.flywaydb.core.internal.resolver.sql.SqlMigrationExecutor.lambda$execute$0(SqlMigrationExecutor.java:57)
+	at org.flywaydb.core.internal.database.DefaultExecutionStrategy.execute(DefaultExecutionStrategy.java:27)
+	at org.flywaydb.core.internal.resolver.sql.SqlMigrationExecutor.execute(SqlMigrationExecutor.java:56)
+	at org.flywaydb.core.internal.command.DbMigrate.doMigrateGroup(DbMigrate.java:374)
+	... 37 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ERROR: syntax error at or near "not"
+  Position: 15
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2713)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2401)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:368)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:498)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:415)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:335)
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:321)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:297)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:292)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:94)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.flywaydb.core.internal.jdbc.JdbcTemplate.executeStatement(JdbcTemplate.java:201)
+	at org.flywaydb.core.internal.sqlscript.ParsedSqlStatement.execute(ParsedSqlStatement.java:95)
+	at org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor.executeStatement(DefaultSqlScriptExecutor.java:210)
+	... 43 common frames omitted

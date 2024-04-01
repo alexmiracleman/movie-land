@@ -39,7 +39,7 @@
     </appender>
 
     <!-- Logging at INFO level -->
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="LogFile" />
         <appender-ref ref="ConsoleOutput" />
     </root>

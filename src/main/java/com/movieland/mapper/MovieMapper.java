@@ -18,7 +18,7 @@ public class MovieMapper {
         movieDto.yearOfRelease(movie.getYearOfRelease());
         movieDto.rating(movie.getRating());
         movieDto.price(movie.getPrice());
-        movieDto.picturePath(movie.getPoster().getPicturePath());
+        movieDto.picturePath(movie.getPicturePath());
         return movieDto.build();
     }
 

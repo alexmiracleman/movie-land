@@ -1,5 +1,6 @@
 package com.movieland.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,9 +35,8 @@ public class Movie {
     @Column(name = "price", columnDefinition = "NUMERIC(8,2)")
     private Double price;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "poster_id", referencedColumnName = "id")
-    private Poster poster;
+    @Column(name = "picture_path")
+    private String picturePath;
 
     @ManyToMany (cascade = CascadeType.ALL)
     @JoinTable(
