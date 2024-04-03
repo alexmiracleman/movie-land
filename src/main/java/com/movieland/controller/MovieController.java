@@ -1,6 +1,7 @@
 package com.movieland.controller;
 
 import com.movieland.dto.MovieDto;
+import com.movieland.entity.Movie;
 import com.movieland.mapper.MovieMapper;
 import com.movieland.service.MovieService;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,12 @@ public class MovieController {
         return movieService.getMoviesByGenre(genreId, rating, price).stream()
                 .map(movieMapper::toMovieDto)
                 .toList();
+    }
+
+    @GetMapping("/movies/{movieId}")
+    public Movie findMoviesById(
+            @PathVariable int movieId) {
+        return movieService.findMoviesById(movieId);
     }
 
 }

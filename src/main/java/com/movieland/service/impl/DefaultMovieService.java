@@ -39,6 +39,11 @@ public class DefaultMovieService implements MovieService {
     }
 
     @Override
+    public Movie findMoviesById(int movieId) {
+        return movieRepository.findById(movieId).get();
+    }
+
+    @Override
     public List<Movie> getRandomMovies() {
         return movieRepository.findThreeRandomMovies();
     }

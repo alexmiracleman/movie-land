@@ -29,6 +29,9 @@ public class Movie {
     @Column(name = "year_of_release")
     private int yearOfRelease;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "rating", columnDefinition = "NUMERIC(8,2)")
     private Double rating;
 
@@ -38,7 +41,21 @@ public class Movie {
     @Column(name = "picture_path")
     private String picturePath;
 
-    @ManyToMany (cascade = CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(
+            name = "movies_countries_map",
+            joinColumns = @JoinColumn(
+                    name = "movie_id",
+                    referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "country_id",
+                    referencedColumnName = "id"
+            )
+    )
+    private List<Country> countries;
+
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "movies_genre_map",
             joinColumns = @JoinColumn(
@@ -51,4 +68,11 @@ public class Movie {
             )
     )
     private List<Genre> genres;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "movie_id",
+            referencedColumnName = "id"
+    )
+    private List<Review> reviews;
 }

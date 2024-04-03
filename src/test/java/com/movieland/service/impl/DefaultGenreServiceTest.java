@@ -58,7 +58,7 @@ class DefaultGenreServiceTest {
 
         when(genreRepository.findAll()).thenReturn(genres);
 
-        List<Genre> genresToReturn = defaultGenreService.getAllGenres();
+        List<Genre> genresToReturn = defaultGenreService.findAllGenres();
 
         Assertions.assertEquals(genres, genresToReturn);
         verify(genreRepository, times(1)).findAll();
@@ -81,7 +81,7 @@ class DefaultGenreServiceTest {
 
         genreCache.addAll(genres);
 
-        List<Genre> genresToReturn = defaultGenreService.getAllGenres();
+        List<Genre> genresToReturn = defaultGenreService.findAllGenres();
 
         Assertions.assertEquals(genres, genresToReturn);
         verify(genreRepository, times(1)).findAll();

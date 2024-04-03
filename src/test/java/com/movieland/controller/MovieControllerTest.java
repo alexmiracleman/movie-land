@@ -19,20 +19,23 @@ class MovieControllerTest extends AbstractBaseITest {
     private static final String ALL_MOVIES_BY_GENRE_DRAMA_PRICE_ASC_API = "/api/v1/movies/genre/1?price=asc";
     private static final String ALL_MOVIES_BY_GENRE_DRAMA_PRICE_DESC_API = "/api/v1/movies/genre/1?price=desc";
     private static final String ALL_MOVIES_BY_GENRE_DRAMA_RATING_DESC_API = "/api/v1/movies/genre/1?rating=desc";
+    private static final String FIND_MOVIE_BY_ID_API = "/api/v1/movies/1";
 
     //JSONs
-    public static final String ALL_MOVIES_JSON = "response/movies/all-movies.json";
-    public static final String ALL_MOVIES_RATING_DESC_JSON = "response/movies/all-movies-rating-desc.json";
-    public static final String ALL_MOVIES_PRICE_ASC_JSON = "response/movies/all-movies-price-asc.json";
-    public static final String ALL_MOVIES_PRICE_DESC_JSON = "response/movies/all-movies-price-desc.json";
-    public static final String ALL_MOVIES_BY_GENRE_CRIME_JSON = "response/movies/all-crime-movies.json";
-    public static final String ALL_MOVIES_BY_GENRE_DRAMA_PRICE_ASC_JSON = "response/movies/all-drama-movies-price-asc.json";
-    public static final String ALL_MOVIES_BY_GENRE_DRAMA_PRICE_DESC_JSON = "response/movies/all-drama-movies-price-desc.json";
-    public static final String ALL_MOVIES_BY_GENRE_DRAMA_RATING_DESC_JSON = "response/movies/all-drama-movies-rating-desc.json";
+    private static final String ALL_MOVIES_JSON = "response/movies/all-movies.json";
+    private static final String ALL_MOVIES_RATING_DESC_JSON = "response/movies/all-movies-rating-desc.json";
+    private static final String ALL_MOVIES_PRICE_ASC_JSON = "response/movies/all-movies-price-asc.json";
+    private static final String ALL_MOVIES_PRICE_DESC_JSON = "response/movies/all-movies-price-desc.json";
+    private static final String ALL_MOVIES_BY_GENRE_CRIME_JSON = "response/movies/all-crime-movies.json";
+    private static final String ALL_MOVIES_BY_GENRE_DRAMA_PRICE_ASC_JSON = "response/movies/all-drama-movies-price-asc.json";
+    private static final String ALL_MOVIES_BY_GENRE_DRAMA_PRICE_DESC_JSON = "response/movies/all-drama-movies-price-desc.json";
+    private static final String ALL_MOVIES_BY_GENRE_DRAMA_RATING_DESC_JSON = "response/movies/all-drama-movies-rating-desc.json";
+    private static final String FIND_MOVIE_BY_ID_ONE_JSON = "response/movies/movie-by-id-1.json";
+
 
 
     @Test
-    @DataSet(value = "datasets/genres/movies_genres_posters.yml",
+    @DataSet(value = "datasets/movies_genres.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void getAllMovies() throws Exception {
 
@@ -43,7 +46,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/genres/movies_genres_posters.yml",
+    @DataSet(value = "datasets/movies_genres.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testGetAllMoviesRatingDesc() throws Exception {
 
@@ -54,7 +57,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/genres/movies_genres_posters.yml",
+    @DataSet(value = "datasets/movies_genres.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testGetAllMoviesPriceAsc() throws Exception {
 
@@ -65,7 +68,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/genres/movies_genres_posters.yml",
+    @DataSet(value = "datasets/movies_genres.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testGetAllMoviesPriceDesc() throws Exception {
 
@@ -74,8 +77,9 @@ class MovieControllerTest extends AbstractBaseITest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(getResponseAsString(ALL_MOVIES_PRICE_DESC_JSON), true));
     }
-   @Test
-    @DataSet(value = "datasets/genres/movies_genres_posters.yml",
+
+    @Test
+    @DataSet(value = "datasets/movies_genres.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testGetThreeRandomMovies() throws Exception {
 
@@ -86,7 +90,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/genres/movies_genres_posters.yml",
+    @DataSet(value = "datasets/movies_genres.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testMoviesByGenre() throws Exception {
 
@@ -97,7 +101,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/genres/movies_genres_posters.yml",
+    @DataSet(value = "datasets/movies_genres.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testMoviesByGenrePriceAscending() throws Exception {
 
@@ -108,7 +112,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/genres/movies_genres_posters.yml",
+    @DataSet(value = "datasets/movies_genres.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testMoviesByGenrePriceDescending() throws Exception {
 
@@ -119,7 +123,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/genres/movies_genres_posters.yml",
+    @DataSet(value = "datasets/movies_genres.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testMoviesByGenreRatingDescending() throws Exception {
 
@@ -127,6 +131,17 @@ class MovieControllerTest extends AbstractBaseITest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(getResponseAsString(ALL_MOVIES_BY_GENRE_DRAMA_RATING_DESC_JSON), true));
+    }
+
+    @Test
+    @DataSet(value = "datasets/movies_genres_countries_reviews_users.yml",
+            cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
+    public void testGetMovieById() throws Exception {
+
+        mockMvc.perform(get(FIND_MOVIE_BY_ID_API)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(getResponseAsString(FIND_MOVIE_BY_ID_ONE_JSON), true));
     }
 
 }

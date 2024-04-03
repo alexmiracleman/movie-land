@@ -16,7 +16,7 @@ public class DefaultGenreService implements GenreService{
     private final CachedGenreProxy cachedGenreProxy;
 
     @Override
-    public List<Genre> getAllGenres() {
-       return cachedGenreProxy.getAllGenres();
+    public List<Genre> findAllGenres() {
+       return cachedGenreProxy.findAll();
     }
 }

@@ -15,7 +15,7 @@ public class GenreControllerITest extends AbstractBaseITest {
     public static final String MOCK_GENRES_PATH = "response/genres/all-genres.json";
 
     @Test
-    @DataSet(value = "datasets/genres/movies_genres_posters.yml",
+    @DataSet(value = "datasets/movies_genres.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void getAllGenres() throws Exception {
 
