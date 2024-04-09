@@ -9,21 +9,24 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
 @Cache
-@Slf4j
 @RequiredArgsConstructor
-public class CachedGenreProxy {
+public class GenresCache {
 
     private final GenreRepository genreRepository;
 
     private List<Genre> cachedGenre = new ArrayList<>();
 
-    public List<Genre> findAll() {
-        if (this.cachedGenre.isEmpty()) {
+
+
+    //todo ReentrantReadWriteLock
+    List<Genre> findAll() {
+        if (cachedGenre.isEmpty()) {
             getAndCacheAllGenre();
         }
         return new ArrayList<>(cachedGenre);
@@ -32,13 +35,11 @@ public class CachedGenreProxy {
     @Scheduled(fixedRate = 4, timeUnit = TimeUnit.HOURS)
     public void getAndCacheAllGenre() {
         invalidate();
-        log.info("Cache has been updated at {}", LocalDateTime.now());
     }
 
-    public void invalidate() {
-        cachedGenre = genreRepository.findAll();
+    private void invalidate() {
+        cachedGenre = Collections.unmodifiableList(genreRepository.findAll());
     }
-
 
 }
 

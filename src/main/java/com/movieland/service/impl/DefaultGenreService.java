@@ -13,10 +13,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DefaultGenreService implements GenreService{
 
-    private final CachedGenreProxy cachedGenreProxy;
+    private final GenresCache genresCache;
+
 
     @Override
     public List<Genre> findAllGenres() {
-       return cachedGenreProxy.findAll();
+       return genresCache.findAll();
     }
+
 }

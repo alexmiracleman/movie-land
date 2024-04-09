@@ -2,16 +2,15 @@ package com.movieland.service;
 
 import com.movieland.entity.Movie;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface MovieService {
 
-    List<Movie> getRandomMovies();
+    List<Movie> findRandomMovies();
 
-    List<Movie> getMoviesByGenre(int genreId, String rating, String price);
+    List<Movie> findMoviesByGenre(int genreId, String sortBy, String sortOrder);
 
-    List<Movie> getAllMovies(String rating, String price);
+    List<Movie> findAllMovies(String sortBy, String sortOrder);
 
-    Movie findMoviesById(int movieId);
+    Movie findMovieById(int movieId, String currency);
 }

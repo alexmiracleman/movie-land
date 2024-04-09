@@ -13,10 +13,4 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
     @Query(value = "SELECT * FROM movies ORDER BY random() LIMIT 3", nativeQuery = true)
     List<Movie> findThreeRandomMovies();
 
-    List<Movie> findAllByOrderByRatingDesc();
-
-    List<Movie> findAllByOrderByPriceAsc();
-
-    List<Movie> findAllByOrderByPriceDesc();
-
 }

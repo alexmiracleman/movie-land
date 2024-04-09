@@ -4,6 +4,7 @@ spring:
     password: root
     url: jdbc:postgresql://localhost:5432/movieland
   jpa:
+#    open-in-view: false
     hibernate:
       ddl-auto: validate
     properties:
