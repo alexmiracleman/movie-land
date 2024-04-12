@@ -1,4 +1,4 @@
-package com.movieland.service;
+package com.movieland.common.annotations;
 
 import org.springframework.stereotype.Component;
 

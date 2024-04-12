@@ -1,21 +1,18 @@
 package com.movieland.service.impl;
 
+import com.movieland.controller.validation.Currency;
+import com.movieland.controller.validation.SortOrderPrice;
+import com.movieland.controller.validation.SortOrderRating;
 import com.movieland.entity.Movie;
 import com.movieland.repository.MovieRepository;
 import com.movieland.repository.MovieRepositoryCustom;
 import com.movieland.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.StringJoiner;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,24 +21,36 @@ public class DefaultMovieService implements MovieService {
 
     private final MovieRepository movieRepository;
     private final MovieRepositoryCustom movieRepositoryCustom;
+    private final CurrencyConverterService CurrencyConverterService;
 
 
     @Override
-    public List<Movie> findAllMovies(String sortBy, String sortOrder) {
+    public List<Movie> findAllMovies(SortOrderRating rating, SortOrderPrice price) {
+
+        Pair<String,String> validateQuery = validateQuery(rating, price);
+        String sortBy = validateQuery.getLeft();
+        String sortOrder = validateQuery.getRight();
+
         return movieRepositoryCustom.findAllCustomSortedMovies(sortBy, sortOrder);
     }
 
     @Override
-    public List<Movie> findMoviesByGenre(int genreId, String sortBy, String sortOrder) {
+    public List<Movie> findMoviesByGenre(int genreId, SortOrderRating rating, SortOrderPrice price) {
+
+        Pair<String,String> validateQuery = validateQuery(rating, price);
+        String sortBy = validateQuery.getLeft();
+        String sortOrder = validateQuery.getRight();
+
         return movieRepositoryCustom.findAllByGenreIdCustomSortedMovies(genreId, sortBy, sortOrder);
     }
 
     @Override
-    public Movie findMovieById(int movieId, String currency) {
+    public Movie findMovieById(int movieId, Currency currency) {
         Optional<Movie> movie = movieRepository.findById(movieId);
         if (movie.isPresent()) {
             if (currency != null) {
-                return (convertCurrency(movie.get(), currency));
+                movie.get().setPrice(CurrencyConverterService.convertFromUah(movie.get().getPrice(), currency));
+                return movie.get();
             }
             return movie.get();
         }
@@ -53,27 +62,22 @@ public class DefaultMovieService implements MovieService {
         return movieRepository.findThreeRandomMovies();
     }
 
-    private Movie convertCurrency(Movie movie, String currency) {
-        String urlStart = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=";
-        String urlMiddle = "&date=";
-        String date = LocalDate.now().toString().replace("-", "");
-        String urlEnd = "&json";
+    private Pair<String, String> validateQuery(SortOrderRating rating, SortOrderPrice price) {
 
-        StringJoiner stringJoiner = new StringJoiner("");
-        stringJoiner.add(urlStart);
-        stringJoiner.add(currency);
-        stringJoiner.add(urlMiddle);
-        stringJoiner.add(date);
-        stringJoiner.add(urlEnd);
-        String url = stringJoiner.toString();
-
-        RestTemplate restTemplate = new RestTemplate();
-        String response = restTemplate.getForObject(url, String.class);
-        double rate = Double.parseDouble(Objects.requireNonNull(StringUtils.substringBetween(response, "\"rate\":", ",\"cc\"")));
-        double price = (movie.getPrice() / rate);
-        final DecimalFormat decfor = new DecimalFormat("0.00");
-        movie.setPrice(Double.parseDouble(decfor.format(price)));
-        return movie;
+        String sortBy = "id";
+        String sortOrder = "asc";
+        if (price == null && rating != null && rating.toString().equals("desc")) {
+            sortBy = "rating";
+            sortOrder = "desc";
+        }
+        if (rating == null && price != null && price.toString().equals("asc")) {
+            sortBy = "price";
+        }
+        if (rating == null && price != null && price.toString().equals("desc")) {
+            sortBy = "price";
+            sortOrder = "desc";
+        }
+        return Pair.of(sortBy, sortOrder);
     }
 
 }

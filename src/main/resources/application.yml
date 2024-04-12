@@ -4,7 +4,6 @@ spring:
     password: root
     url: jdbc:postgresql://localhost:5432/movieland
   jpa:
-#    open-in-view: false
     hibernate:
       ddl-auto: validate
     properties:
@@ -12,3 +11,5 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
+
+nbuRatesUrl: https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange

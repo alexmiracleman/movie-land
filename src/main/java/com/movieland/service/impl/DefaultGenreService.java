@@ -11,14 +11,14 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DefaultGenreService implements GenreService{
+public class DefaultGenreService implements GenreService {
 
     private final GenresCache genresCache;
 
 
     @Override
-    public List<Genre> findAllGenres() {
-       return genresCache.findAll();
+    public List<Genre> findAll() {
+        return genresCache.findAll();
     }
 
 }
