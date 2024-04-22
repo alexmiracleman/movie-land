@@ -1,10 +1,11 @@
 package com.movieland.service;
 
+import com.movieland.dto.GenreDto;
 import com.movieland.entity.Genre;
 
 import java.util.List;
 
 public interface GenreService {
-    List<Genre> findAll();
+    List<GenreDto> findAll();
 
 }

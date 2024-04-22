@@ -1,17 +1,15 @@
 package com.movieland.controller.response;
 
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @Getter
-@Setter
 @AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class AuthResponse {
+public class AuthenticationResponse {
 
     private String uuid;
 
     private String nickname;
+
 
 }

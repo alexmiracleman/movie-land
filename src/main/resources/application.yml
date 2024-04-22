@@ -11,5 +11,15 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
-
+    open-in-view: false
 nbuRatesUrl: https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange
+
+genres:
+  cache:
+    fixed-rate: 4
+    fixed-delay: 4
+
+currency:
+  cache:
+    tomorrow: "0 0 17 * * *"
+    invalidate: "0 0 0 * * ?"

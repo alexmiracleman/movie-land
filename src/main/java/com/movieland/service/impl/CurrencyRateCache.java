@@ -1,6 +1,5 @@
 package com.movieland.service.impl;
 
-import com.movieland.configuration.NbuCurrencyRatesApi;
 import com.movieland.controller.validation.Currency;
 import com.movieland.dto.NbuRateDto;
 import com.movieland.common.annotations.Cache;
@@ -18,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CurrencyRateCache {
 
-    private final NbuCurrencyRatesApi nbuCurrencyRatesApi;
+    private final NbuCurrencyRatesService nbuCurrencyRatesService;
 
     private List<NbuRateDto> cachedRatesForToday = new ArrayList<>();
     private List<NbuRateDto> cachedRatesForTomorrow = new ArrayList<>();
@@ -26,7 +25,7 @@ public class CurrencyRateCache {
 
     public double getRate(Currency currency) {
         for (NbuRateDto nbuRateDto : cachedRatesForToday) {
-            if (nbuRateDto.getCc().equalsIgnoreCase(currency.toString())) {
+            if (nbuRateDto.getCurrency().equalsIgnoreCase(currency.toString())) {
                 return nbuRateDto.getRate();
             }
         }
@@ -38,21 +37,21 @@ public class CurrencyRateCache {
     @PostConstruct
     private void generateCacheForToday() {
         log.info("Generating currency cache for the current day");
-        cachedRatesForToday = nbuCurrencyRatesApi.getAllCurrencyRates(false);
-        if (LocalTime.now().isAfter(LocalTime.of(16, 0, 0))) {
+        cachedRatesForToday = nbuCurrencyRatesService.getAllCurrencyRatesToday();
+        if (LocalTime.now().isAfter(LocalTime.of(17, 0, 0))) {
             generateCacheForTomorrow();
         }
     }
 
     //Generating rates for the next day
-    @Scheduled(cron = "0 0 16 * * *")
+    @Scheduled(cron = "${currency.cache.tomorrow}")
     private void generateCacheForTomorrow() {
         log.info("Generating currency cache for the next day");
-        cachedRatesForTomorrow = nbuCurrencyRatesApi.getAllCurrencyRates(true);
+        cachedRatesForTomorrow = nbuCurrencyRatesService.getAllCurrencyRatesTomorrow();
     }
 
     //Midnight rates update
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "${currency.cache.invalidate}")
     private void invalidateCache() {
         log.info("Updating currency cache for the current day");
         cachedRatesForToday = cachedRatesForTomorrow;

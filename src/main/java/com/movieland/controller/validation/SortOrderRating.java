@@ -8,6 +8,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum SortOrderRating {
 
-    desc
+    DESC
 
 }

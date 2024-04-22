@@ -21,7 +21,7 @@ public class DefaultMovieService implements MovieService {
 
     private final MovieRepository movieRepository;
     private final MovieRepositoryCustom movieRepositoryCustom;
-    private final CurrencyConverterService CurrencyConverterService;
+    private final com.movieland.service.CurrencyConverterService CurrencyConverterService;
 
 
     @Override
@@ -66,14 +66,14 @@ public class DefaultMovieService implements MovieService {
 
         String sortBy = "id";
         String sortOrder = "asc";
-        if (price == null && rating != null && rating.toString().equals("desc")) {
+        if (price == null && rating != null && rating.toString().equalsIgnoreCase("desc")) {
             sortBy = "rating";
             sortOrder = "desc";
         }
-        if (rating == null && price != null && price.toString().equals("asc")) {
+        if (rating == null && price != null && price.toString().equalsIgnoreCase("asc")) {
             sortBy = "price";
         }
-        if (rating == null && price != null && price.toString().equals("desc")) {
+        if (rating == null && price != null && price.toString().equalsIgnoreCase("desc")) {
             sortBy = "price";
             sortOrder = "desc";
         }

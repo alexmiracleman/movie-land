@@ -1,6 +1,6 @@
 package com.movieland.service.impl;
 
-import com.movieland.entity.Genre;
+import com.movieland.dto.GenreDto;
 import com.movieland.service.GenreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ public class DefaultGenreService implements GenreService {
 
 
     @Override
-    public List<Genre> findAll() {
+    public List<GenreDto> findAll() {
         return genresCache.findAll();
     }
 

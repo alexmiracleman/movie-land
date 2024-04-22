@@ -1,4 +1,4 @@
-package com.movieland.service.impl;
+package com.movieland.service;
 
 import com.movieland.controller.validation.Currency;
 

@@ -1,6 +1,7 @@
 package com.movieland.service.impl;
 
 import com.movieland.controller.validation.Currency;
+import com.movieland.service.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

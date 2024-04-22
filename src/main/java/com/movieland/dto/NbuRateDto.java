@@ -1,5 +1,6 @@
 package com.movieland.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Data
@@ -11,6 +12,7 @@ public class NbuRateDto {
 
     private double rate;
 
-    private String cc;
+    @JsonProperty("cc")
+    private String currency;
 
 }

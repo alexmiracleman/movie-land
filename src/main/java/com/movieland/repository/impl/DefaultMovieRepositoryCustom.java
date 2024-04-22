@@ -16,54 +16,55 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DefaultMovieRepositoryCustom implements MovieRepositoryCustom {
 
-    private final EntityManager em;
+    private final EntityManager entityManager;
 
     @Override
     public List<Movie> findAllCustomSortedMovies(String sortBy, String sortOrder) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Movie> criteriaBuilderQuery = criteriaBuilder.createQuery(Movie.class);
 
-        Root<Movie> movieRoot = cq.from(Movie.class);
+        Root<Movie> movieRoot = criteriaBuilderQuery.from(Movie.class);
 
         if (sortOrder.equals("asc")) {
-            cq.orderBy(
-                    cb.asc(movieRoot.get(sortBy)));
+            criteriaBuilderQuery.orderBy(
+                    criteriaBuilder.asc(movieRoot.get(sortBy)));
         } else {
-            cq.orderBy(
-                    cb.desc(movieRoot.get(sortBy)));
+            criteriaBuilderQuery.orderBy(
+                    criteriaBuilder.desc(movieRoot.get(sortBy)));
         }
 
-        cq.select(movieRoot);
+        criteriaBuilderQuery.select(movieRoot);
 
-        TypedQuery<Movie> query = em.createQuery(cq);
+        TypedQuery<Movie> query = entityManager.createQuery(criteriaBuilderQuery);
         return query.getResultList();
     }
+
 
     @Override
     public List<Movie> findAllByGenreIdCustomSortedMovies(int genreId, String sortBy, String sortOrder) {
 
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
-        Root<Movie> movie = cq.from(Movie.class);
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Movie> criteriaQuery = criteriaBuilder.createQuery(Movie.class);
+        Root<Movie> movie = criteriaQuery.from(Movie.class);
         List<Predicate> predicates = new ArrayList<>();
 
-        Subquery<Long> subquery = cq.subquery(Long.class);
+        Subquery<Long> subquery = criteriaQuery.subquery(Long.class);
         Root<Movie> subqueryMovie = subquery.from(Movie.class);
         Join<Genre, Movie> subqueryGenre = subqueryMovie.join("genres");
 
         subquery.select(subqueryMovie.get("id")).where(
-                cb.equal(subqueryGenre.get("id"), genreId));
+                criteriaBuilder.equal(subqueryGenre.get("id"), genreId));
 
-        predicates.add(cb.in(movie.get("id")).value(subquery));
-        cq.where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
+        predicates.add(criteriaBuilder.in(movie.get("id")).value(subquery));
+        criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
         if (sortOrder.equals("asc")) {
-            cq.orderBy(
-                    cb.asc(movie.get(sortBy)));
+            criteriaQuery.orderBy(
+                    criteriaBuilder.asc(movie.get(sortBy)));
         } else {
-            cq.orderBy(
-                    cb.desc(movie.get(sortBy)));
+            criteriaQuery.orderBy(
+                    criteriaBuilder.desc(movie.get(sortBy)));
         }
-        TypedQuery<Movie> query = em.createQuery(cq);
+        TypedQuery<Movie> query = entityManager.createQuery(criteriaQuery);
         return query.getResultList();
     }
 

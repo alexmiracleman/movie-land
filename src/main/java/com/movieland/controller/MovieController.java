@@ -14,14 +14,14 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/v1")
+@RequestMapping(value = "/api/v1/movies")
 public class MovieController {
 
     private final MovieService movieService;
     private final MovieMapper movieMapper;
 
 
-    @GetMapping("/movies")
+    @GetMapping
     public List<MovieDto> findAllMovies(
             @RequestParam(required = false) SortOrderRating rating,
             @RequestParam(required = false) SortOrderPrice price)
@@ -31,7 +31,7 @@ public class MovieController {
                 .toList();
     }
 
-    @GetMapping("/movies/genre/{genreId}")
+    @GetMapping("/genre/{genreId}")
     public List<MovieDto> findMoviesByGenre(
             @PathVariable int genreId,
             @RequestParam(required = false) SortOrderRating rating,
@@ -41,14 +41,14 @@ public class MovieController {
                 .toList();
     }
 
-    @GetMapping("/movies/random")
+    @GetMapping("/random")
     public List<MovieDto> findRandomMovies() {
         return movieService.findRandomMovies().stream()
                 .map(movieMapper::toMovieDto)
                 .toList();
     }
 
-    @GetMapping("/movies/{movieId}")
+    @GetMapping("/{movieId}")
     public Movie findMoviesById(
             @PathVariable int movieId,
             @RequestParam(required = false) Currency currency) {

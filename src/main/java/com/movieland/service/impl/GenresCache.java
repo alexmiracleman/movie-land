@@ -1,6 +1,8 @@
 package com.movieland.service.impl;
 
+import com.movieland.dto.GenreDto;
 import com.movieland.entity.Genre;
+import com.movieland.mapper.GenreMapper;
 import com.movieland.repository.GenreRepository;
 import com.movieland.common.annotations.Cache;
 import jakarta.annotation.PostConstruct;
@@ -19,18 +21,21 @@ import java.util.concurrent.TimeUnit;
 public class GenresCache {
 
     private final GenreRepository genreRepository;
-    private List<Genre> cachedGenre = new ArrayList<>();
+    private final GenreMapper genreMapper;
+    private List<GenreDto> cachedGenre = new ArrayList<>();
+    //todo volatile
 
-
-    List<Genre> findAll() {
+    List<GenreDto> findAll() {
         return new ArrayList<>(cachedGenre);
     }
 
     @PostConstruct
-    @Scheduled(fixedRate = 4, timeUnit = TimeUnit.HOURS, initialDelay = 4)
+    @Scheduled(fixedRateString = "${genres.cache.fixed-rate}", timeUnit = TimeUnit.HOURS, initialDelayString = "${genres.cache.fixed-delay}")
     private void invalidateCache() {
         log.info("Invalidating genre cache");
-        cachedGenre = genreRepository.findAll();
+        cachedGenre = genreRepository.findAll().stream()
+                .map(genreMapper::toGenreDto)
+                .toList();
     }
 
 }
