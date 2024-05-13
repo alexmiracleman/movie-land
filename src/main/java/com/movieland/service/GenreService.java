@@ -8,4 +8,6 @@ import java.util.List;
 public interface GenreService {
     List<GenreDto> findAll();
 
+    List<Genre> findALlById(List<Integer> genreId);
+
 }

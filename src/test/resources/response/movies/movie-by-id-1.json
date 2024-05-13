@@ -23,10 +23,10 @@
       "name": "криминал"
     }
   ],
-  "reviews": [
+  "reviewsDto": [
     {
       "id": 1,
-      "user": {
+      "userDto": {
         "id": 3,
         "nickname": "Дарлин Эдвардс"
       },
@@ -34,7 +34,7 @@
     },
     {
       "id": 2,
-      "user": {
+      "userDto": {
         "id": 4,
         "nickname": "Габриэль Джексон"
       },

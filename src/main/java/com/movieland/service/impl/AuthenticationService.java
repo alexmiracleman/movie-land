@@ -1,42 +1,44 @@
 package com.movieland.service.impl;
 
-import com.movieland.controller.request.AuthRequest;
-import com.movieland.controller.response.AuthenticationResponse;
-import com.movieland.dto.UserDto;
-import com.movieland.entity.Token;
+import com.movieland.dto.UserRegistrationDto;
+import com.movieland.entity.Role;
 import com.movieland.entity.User;
-import com.movieland.repository.TokenRepository;
 import com.movieland.repository.UserRepository;
+import com.movieland.web.controller.request.AuthRequest;
+import com.movieland.web.controller.response.AuthenticationResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.time.Instant;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
 
+    public static final String BEARER = "Bearer ";
+
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final TokenRepository tokenRepository;
+    private final RedisTemplate<String, String> redisTemplate;
 
-    public AuthenticationResponse register(UserDto userDto) {
+    public AuthenticationResponse register(UserRegistrationDto userRegistrationDto) {
         User user = new User();
-        user.setEmail(userDto.getEmail());
-        user.setNickname(userDto.getNickname());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setEmail(userRegistrationDto.getEmail());
+        user.setNickname(userRegistrationDto.getNickname());
+        user.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
+        user.setRole(Role.USER);
         user = repository.save(user);
 
         String uuid = jwtService.generateToken(user);
-
-        saveUserToken(uuid, user);
-
 
         return new AuthenticationResponse(uuid, user.getNickname());
     }
@@ -52,31 +54,14 @@ public class AuthenticationService {
         User user = repository.findByEmail(authRequest.getEmail()).orElseThrow();
         String uuid = jwtService.generateToken(user);
 
-        revokeAllTokensByUser(user);
-
-        saveUserToken(uuid, user);
-
         return new AuthenticationResponse(uuid, user.getNickname());
     }
 
-    private void saveUserToken(String uuid, User user) {
-        Token token = new Token();
-        token.setToken(uuid);
-        token.setLoggedOut(false);
-        token.setUser(user);
-        tokenRepository.save(token);
-    }
-
-    private void revokeAllTokensByUser(User user) {
-        List<Token> validTokensListByUser = tokenRepository.findAllTokensByUser(user.getId());
-
-        if(!validTokensListByUser.isEmpty()) {
-            validTokensListByUser.forEach(t -> {
-                t.setLoggedOut(true);
-            });
-        }
-
-        tokenRepository.saveAll(validTokensListByUser);
+    public void logout(String authHeader) {
+        String token = authHeader.replaceFirst(BEARER, StringUtils.EMPTY);
+        Date expirationDate = jwtService.extractExpiration(token);
+        long timeOut = ((expirationDate.getTime()/60000) - (Date.from(Instant.now()).getTime()/60000));
+        redisTemplate.opsForValue().set(token, "token", timeOut, TimeUnit.MINUTES);
     }
 
 }

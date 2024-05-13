@@ -1,25 +1,18 @@
 package com.movieland.mapper;
 
 import com.movieland.dto.MovieDto;
+import com.movieland.dto.MovieExtendedDto;
 import com.movieland.entity.Movie;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-@Component
-public class MovieMapper {
+import java.util.List;
 
-    public MovieDto toMovieDto(Movie movie) {
-        if (movie == null) {
-            return null;
-        }
-        MovieDto.MovieDtoBuilder movieDto = MovieDto.builder();
-        movieDto.id(movie.getId());
-        movieDto.nameRussian(movie.getNameRussian());
-        movieDto.nameNative(movie.getNameNative());
-        movieDto.yearOfRelease(movie.getYearOfRelease());
-        movieDto.rating(movie.getRating());
-        movieDto.price(movie.getPrice());
-        movieDto.picturePath(movie.getPicturePath());
-        return movieDto.build();
-    }
+@Mapper(componentModel = "spring", uses = ReviewMapper.class)
 
+public interface MovieMapper {
+
+    List<MovieDto> toDto(List<Movie> movies);
+
+    MovieExtendedDto toMovieExtendedDto(Movie movie);
 }

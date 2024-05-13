@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableJpaRepositories
+//@EnableJpaRepositories
 public class MovieLandApplication {
 
 	public static void main(String[] args) {

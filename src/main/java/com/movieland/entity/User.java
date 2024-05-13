@@ -22,60 +22,56 @@ public class User implements UserDetails {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_sequence")
+    @SequenceGenerator(name = "users_id_sequence", sequenceName = "users_id_sequence", allocationSize = 1)
     private int id;
 
     @Column(name = "nickname")
     private String nickname;
 
-    @JsonIgnore
+
     @Column(name = "email")
     private String email;
 
-    @JsonIgnore
+
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "user")
-    private List<Token> tokens;
+    @Enumerated(value = EnumType.STRING)
+    Role role;
+
 
     @Override
-    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
-    @JsonIgnore
     public String getUsername() {
         return email;
     }
 
     @Override
-    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
     @Override
-    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
-    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
-    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
-    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }

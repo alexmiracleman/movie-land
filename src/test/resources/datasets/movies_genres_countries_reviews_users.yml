@@ -1,8 +1,14 @@
 USERS:
   - id: 3
     nickname: "Дарлин Эдвардс"
+    email: "darlene.edwards15@example.com"
+    password: "$2a$10$X6lQ1ln8HTJeVi/RQ63UWeDCBMRWWfgqiAk/iwvf6NegWvRp0hgdm"
+    role: "USER"
   - id: 4
     nickname: "Габриэль Джексон"
+    email: "gabriel.jackson91@example.com"
+    password: "$2a$10$1GSblJgFqmyTDsfdm263cO4wlIOtod1NZSUz/oma7RhlKltePSUA6"
+    role: "USER"
 
 REVIEWS:
   - id: 1
@@ -19,6 +25,9 @@ GENRES:
     name: "драма"
   - id: 2
     name: "криминал"
+  - id: 3
+    name: "комедия"
+
 
 MOVIES:
   - id: 1
@@ -39,6 +48,8 @@ MOVIES_GENRE_MAP:
 COUNTRIES:
   - id: 1
     name: США
+  - id: 2
+    name: Канада
 
 MOVIES_COUNTRIES_MAP:
   - movie_id: 1

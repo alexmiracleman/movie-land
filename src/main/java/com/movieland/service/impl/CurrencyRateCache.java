@@ -1,6 +1,6 @@
 package com.movieland.service.impl;
 
-import com.movieland.controller.validation.Currency;
+import com.movieland.common.Currency;
 import com.movieland.dto.NbuRateDto;
 import com.movieland.common.annotations.Cache;
 import jakarta.annotation.PostConstruct;
@@ -34,7 +34,7 @@ public class CurrencyRateCache {
 
 
     //Generating rates for the current day
-    @PostConstruct
+//    @PostConstruct
     private void generateCacheForToday() {
         log.info("Generating currency cache for the current day");
         cachedRatesForToday = nbuCurrencyRatesService.getAllCurrencyRatesToday();

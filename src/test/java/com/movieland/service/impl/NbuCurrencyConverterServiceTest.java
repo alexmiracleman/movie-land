@@ -1,6 +1,6 @@
 package com.movieland.service.impl;
 
-import com.movieland.controller.validation.Currency;
+import com.movieland.common.Currency;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

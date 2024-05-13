@@ -1,11 +1,11 @@
 package com.movieland.service.impl;
 
-import com.movieland.configuration.RestClientMovieLand;
 import com.movieland.dto.NbuRateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClient;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +17,7 @@ import java.util.StringJoiner;
 @RequiredArgsConstructor
 public class NbuCurrencyRatesService {
 
-    private final RestClientMovieLand restClientMovieLand;
+    private final RestClient restClient;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     @Value("${nbuRatesUrl}")
@@ -30,7 +30,7 @@ public class NbuCurrencyRatesService {
         String date = "?date=" + dateString + "&json";
         stringJoiner.add(nbuRatesUrl);
         stringJoiner.add(date);
-        NbuRateDto[] nbuRates= restClientMovieLand.restClient().get().uri(stringJoiner.toString()).accept(MediaType.APPLICATION_JSON).retrieve().body(NbuRateDto[].class);
+        NbuRateDto[] nbuRates= restClient.get().uri(stringJoiner.toString()).accept(MediaType.APPLICATION_JSON).retrieve().body(NbuRateDto[].class);
         return Arrays.asList(nbuRates);
     }
 
@@ -41,7 +41,7 @@ public class NbuCurrencyRatesService {
         String date = "?date=" + dateString + "&json";
         stringJoiner.add(nbuRatesUrl);
         stringJoiner.add(date);
-        NbuRateDto[] nbuRates= restClientMovieLand.restClient().get().uri(stringJoiner.toString()).accept(MediaType.APPLICATION_JSON).retrieve().body(NbuRateDto[].class);
+        NbuRateDto[] nbuRates= restClient.get().uri(stringJoiner.toString()).accept(MediaType.APPLICATION_JSON).retrieve().body(NbuRateDto[].class);
         return Arrays.asList(nbuRates);
     }
 

@@ -2,6 +2,9 @@ package com.movieland.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.OptimisticLockType;
+import org.hibernate.annotations.OptimisticLocking;
 
 import java.util.List;
 
@@ -12,11 +15,15 @@ import java.util.List;
 @ToString
 @Builder
 @Entity
+@DynamicUpdate
+@OptimisticLocking(type = OptimisticLockType.VERSION)
 @Table(name = "movies")
 public class Movie {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movies_id_sequence")
+    @SequenceGenerator(name = "movies_id_sequence", sequenceName = "movies_id_sequence", allocationSize = 1)
     private int id;
 
     @Column(name = "name_russian")
@@ -40,7 +47,7 @@ public class Movie {
     @Column(name = "picture_path")
     private String picturePath;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "movies_countries_map",
             joinColumns = @JoinColumn(
@@ -54,7 +61,7 @@ public class Movie {
     )
     private List<Country> countries;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "movies_genre_map",
             joinColumns = @JoinColumn(
@@ -68,10 +75,14 @@ public class Movie {
     )
     private List<Genre> genres;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(
-            name = "movie_id",
-            referencedColumnName = "id"
-    )
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
     private List<Review> reviews;
+
+    public void addReview(Review review) {
+        this.getReviews().add(review);
+        review.setMovie(this);
+    }
+
+    @Version
+    private Integer version;
 }

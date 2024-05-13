@@ -18,6 +18,8 @@ public class Genre {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genres_id_sequence")
+    @SequenceGenerator(name = "genres_id_sequence", sequenceName = "genres_id_sequence", allocationSize = 1)
     private int id;
 
     @Column(name = "name")

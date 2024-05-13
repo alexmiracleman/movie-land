@@ -11,8 +11,33 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
+
     open-in-view: false
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        jdbc:
+#          core:
+#            JdbcTemplate: DEBUG
+#            StatementCreatorUtils: TRACE
+#      hibernate:
+#        sql: DEBUG
+#        type:
+#          descriptor:
+#            sql:
+#              BasicBinder: TRACE
+#        orm:
+#          jdbc:
+#            bind: TRACE
+
 nbuRatesUrl: https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange
+
+JWT_SECRET_KEY: f31452045b7a2c118febfdfd51bda9e73d61321fa09ebca24305997d8f7c95fe
 
 genres:
   cache:

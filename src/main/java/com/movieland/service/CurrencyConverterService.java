@@ -1,6 +1,6 @@
 package com.movieland.service;
 
-import com.movieland.controller.validation.Currency;
+import com.movieland.common.Currency;
 
 public interface CurrencyConverterService {
 

@@ -2,6 +2,7 @@ package com.movieland.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 
 @Getter
@@ -9,7 +10,7 @@ import lombok.Getter;
 
 public class GenreDto {
 
-    private int id;
+    private final int id;
 
-    private String name;
+    private final String name;
 }

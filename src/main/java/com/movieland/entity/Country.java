@@ -1,9 +1,6 @@
 package com.movieland.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @AllArgsConstructor
@@ -18,6 +15,8 @@ public class Country {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "countries_id_sequence")
+    @SequenceGenerator(name = "countries_id_sequence", sequenceName = "countries_id_sequence", allocationSize = 1)
     private int id;
 
     @Column(name = "name")

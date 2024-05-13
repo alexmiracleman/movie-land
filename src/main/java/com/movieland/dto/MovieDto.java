@@ -2,10 +2,7 @@ package com.movieland.dto;
 
 import lombok.*;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
+@Getter
 @Builder
 public class MovieDto {
 
@@ -22,4 +19,5 @@ public class MovieDto {
     private Double price;
 
     private String picturePath;
+
 }
