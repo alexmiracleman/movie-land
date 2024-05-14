@@ -1,4 +1,4 @@
-package com.movieland.common;
+package com.movieland.web;
 
 import com.movieland.service.impl.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,8 +17,6 @@ import static com.movieland.service.impl.AuthenticationService.BEARER;
 
 @RequiredArgsConstructor
 public class LogHandlerInterceptor implements HandlerInterceptor {
-
-    private static final Logger log = LoggerFactory.getLogger(LogHandlerInterceptor.class);
 
     private final JwtService jwtService;
     @Override

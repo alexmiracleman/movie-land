@@ -2,7 +2,6 @@ package com.movieland.dto;
 
 import com.movieland.entity.Country;
 import com.movieland.entity.Genre;
-import com.movieland.entity.Review;
 import lombok.*;
 
 import java.util.List;

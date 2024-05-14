@@ -20,7 +20,7 @@ public class NbuCurrencyRatesService {
     private final RestClient restClient;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 
-    @Value("${nbuRatesUrl}")
+    @Value("${nbu.currency.url}")
     private String nbuRatesUrl;
 
     public List<NbuRateDto> getAllCurrencyRatesToday() {

@@ -34,7 +34,7 @@ public class CurrencyRateCache {
 
 
     //Generating rates for the current day
-//    @PostConstruct
+    @PostConstruct
     private void generateCacheForToday() {
         log.info("Generating currency cache for the current day");
         cachedRatesForToday = nbuCurrencyRatesService.getAllCurrencyRatesToday();
@@ -44,14 +44,14 @@ public class CurrencyRateCache {
     }
 
     //Generating rates for the next day
-    @Scheduled(cron = "${currency.cache.tomorrow}")
+    @Scheduled(cron = "${nbu.currency.cache.tomorrow}")
     private void generateCacheForTomorrow() {
         log.info("Generating currency cache for the next day");
         cachedRatesForTomorrow = nbuCurrencyRatesService.getAllCurrencyRatesTomorrow();
     }
 
     //Midnight rates update
-    @Scheduled(cron = "${currency.cache.invalidate}")
+    @Scheduled(cron = "${nbu.currency.cache.invalidate}")
     private void invalidateCache() {
         log.info("Updating currency cache for the current day");
         cachedRatesForToday = cachedRatesForTomorrow;

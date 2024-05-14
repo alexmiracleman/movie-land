@@ -4,7 +4,6 @@ import com.movieland.dto.MovieDto;
 import com.movieland.dto.MovieExtendedDto;
 import com.movieland.entity.Movie;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 import java.util.List;
 

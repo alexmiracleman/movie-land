@@ -9,19 +9,16 @@ import com.movieland.web.controller.validation.SortOrderRating;
 import com.movieland.dto.MovieDto;
 import com.movieland.service.MovieService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1/movies")
 public class MovieController {
-
-    private static final Logger log = LoggerFactory.getLogger(MovieController.class);
-
 
     private final MovieService movieService;
     private final MovieMapper movieMapper;

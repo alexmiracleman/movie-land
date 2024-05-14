@@ -2,7 +2,6 @@ package com.movieland.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
 
 
 @Getter
