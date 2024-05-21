@@ -3,11 +3,12 @@ package com.movieland.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Builder
 @Entity
 @Table(name = "countries")
@@ -21,4 +22,7 @@ public class Country {
 
     @Column(name = "name")
     private String name;
+
+    @ManyToMany(mappedBy = "countries", cascade = CascadeType.ALL)
+    private List<Movie> movies;
 }

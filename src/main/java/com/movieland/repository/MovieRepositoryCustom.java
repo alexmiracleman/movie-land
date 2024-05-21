@@ -1,7 +1,6 @@
 package com.movieland.repository;
 
 import com.movieland.entity.Movie;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

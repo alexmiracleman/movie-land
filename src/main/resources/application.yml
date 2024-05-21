@@ -13,8 +13,8 @@ spring:
     show-sql: true
 
     open-in-view: false
-  redis:
-    data:
+  data:
+    redis:
       host: 127.0.0.1
       port: 6379
 
@@ -23,8 +23,7 @@ jwt:
 
 genres:
   cache:
-    fixed-rate: 4
-    fixed-delay: 4
+    fixed-rate/delay: 4
 
 nbu:
   currency:

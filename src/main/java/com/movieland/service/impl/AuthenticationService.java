@@ -60,8 +60,10 @@ public class AuthenticationService {
     public void logout(String authHeader) {
         String token = authHeader.replaceFirst(BEARER, StringUtils.EMPTY);
         Date expirationDate = jwtService.extractExpiration(token);
-        long timeOut = ((expirationDate.getTime()/60000) - (Date.from(Instant.now()).getTime()/60000));
-        redisTemplate.opsForValue().set(token, "token", timeOut, TimeUnit.MINUTES);
+
+        long expireTime = expirationDate.getTime() - Date.from(Instant.now()).getTime();
+
+        redisTemplate.opsForValue().set(token, "token", expireTime, TimeUnit.MILLISECONDS);
     }
 
 }

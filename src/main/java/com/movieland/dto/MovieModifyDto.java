@@ -6,7 +6,7 @@ import java.util.List;
 
 @Getter
 @Builder
-public class MovieAdminDto {
+public class MovieModifyDto {
 
     private String nameRussian;
 

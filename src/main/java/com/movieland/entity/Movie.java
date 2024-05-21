@@ -12,7 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Builder
 @Entity
 @DynamicUpdate
@@ -77,11 +76,6 @@ public class Movie {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
     private List<Review> reviews;
-
-    public void addReview(Review review) {
-        this.getReviews().add(review);
-        review.setMovie(this);
-    }
 
     @Version
     private Integer version;

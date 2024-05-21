@@ -26,8 +26,13 @@ public class DefaultGenreService implements GenreService {
     }
 
     @Override
-    public List<Genre> findALlById(List<Integer> genreIds) {
+    public List<Genre> findAllById(List<Integer> genreIds) {
         return genreRepository.findAllById(genreIds);
+    }
+
+    @Override
+    public List<Genre> findAllByMovieId(int movieId) {
+        return genreRepository.findAllByMovieId(movieId);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.movieland.service.impl;
 
 import com.movieland.entity.Country;
-import com.movieland.service.CountryRepository;
+import com.movieland.repository.CountryRepository;
 import com.movieland.service.CountryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,12 @@ public class DefaultCountryService implements CountryService {
 
 
     @Override
-    public List<Country> findAllCountriesById(List<Integer> countryIds) {
+    public List<Country> findAllById(List<Integer> countryIds) {
         return countryRepository.findAllById(countryIds);
+    }
+
+    @Override
+    public List<Country> findAllByMovieId(int movieId) {
+        return countryRepository.findByMovieId(movieId);
     }
 }

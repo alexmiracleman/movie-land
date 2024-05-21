@@ -10,7 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Builder
 @Entity
 @Table(name = "genres")
@@ -26,7 +25,6 @@ public class Genre {
     private String name;
 
     @ManyToMany(mappedBy = "genres", cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<Movie> movies;
 
 }

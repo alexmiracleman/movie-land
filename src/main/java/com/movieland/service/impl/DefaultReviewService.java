@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.movieland.service.impl.AuthenticationService.BEARER;
 
 @Service
@@ -27,7 +29,7 @@ public class DefaultReviewService implements ReviewService {
     public void saveReview(ReviewToSaveDto reviewToSaveDto, String authHeader) {
         String token = authHeader.replaceFirst(BEARER, StringUtils.EMPTY);
         User user = userService.findByEmail(jwtService.extractUsername(token));
-        Movie movie = movieService.findMovieByReferenceId(reviewToSaveDto.getMovieId());
+        Movie movie = movieService.getByReferenceId(reviewToSaveDto.getMovieId());
 
         Review review = Review.builder()
                 .movie(movie)
@@ -38,5 +40,9 @@ public class DefaultReviewService implements ReviewService {
         reviewRepository.save(review);
     }
 
+    @Override
+    public List<Review> findAllByMovieId(int movieId) {
+        return reviewRepository.findAllByMovieId(movieId);
+    }
 
 }

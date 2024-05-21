@@ -29,7 +29,7 @@ public class GenresCache {
     }
 
     @PostConstruct
-    @Scheduled(fixedRateString = "${genres.cache.fixed-rate}", timeUnit = TimeUnit.HOURS, initialDelayString = "${genres.cache.fixed-delay}")
+    @Scheduled(fixedRateString = "${genres.cache.fixed-rate/delay}", timeUnit = TimeUnit.HOURS, initialDelayString = "${genres.cache.fixed-rate/delay}")
     private void invalidateCache() {
         log.info("Invalidating genre cache");
         cachedGenre = genreMapper.toGenreDto(genreRepository.findAll());

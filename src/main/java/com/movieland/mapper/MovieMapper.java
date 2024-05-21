@@ -1,17 +1,17 @@
 package com.movieland.mapper;
 
+import com.movieland.dto.MovieShortDto;
 import com.movieland.dto.MovieDto;
-import com.movieland.dto.MovieExtendedDto;
 import com.movieland.entity.Movie;
 import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = ReviewMapper.class)
+@Mapper(componentModel = "spring", uses = {ReviewMapper.class, GenreMapper.class})
 
 public interface MovieMapper {
 
-    List<MovieDto> toDto(List<Movie> movies);
+    List<MovieShortDto> toShortDtoList(List<Movie> movies);
 
-    MovieExtendedDto toMovieExtendedDto(Movie movie);
+    MovieDto toMovieDto(Movie movie);
 }

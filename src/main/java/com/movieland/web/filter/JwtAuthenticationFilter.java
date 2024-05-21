@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         String token = authHeader.replaceFirst(BEARER, StringUtils.EMPTY);
 
-        if(redisTemplate.hasKey(token)) {
+        if(Boolean.TRUE.equals(redisTemplate.hasKey(token))) {
             filterChain.doFilter(request, response);
             return;
         }

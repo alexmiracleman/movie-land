@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface CountryService {
 
-    List<Country> findAllCountriesById(List<Integer> countryIds);
+    List<Country> findAllById(List<Integer> countryIds);
+
+    List<Country> findAllByMovieId(int movieId);
 }
