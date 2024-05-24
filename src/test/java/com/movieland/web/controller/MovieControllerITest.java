@@ -169,7 +169,7 @@ class MovieControllerITest extends AbstractBaseITest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(getResponseAsString(FIND_MOVIE_BY_ID_ONE_JSON), true));
-        assertSelectCount(3);
+        assertSelectCount(1);
     }
 
     @Test

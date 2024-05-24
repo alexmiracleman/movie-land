@@ -1,15 +1,16 @@
 package com.movieland.service;
 
-import com.movieland.entity.Movie;
+import com.movieland.dto.MovieDto;
 
 public interface MovieEnrichmentService {
 
-    void enrich(Movie movie, EnrichmentType... types);
+    void enrich(MovieDto movieDto, EnrichmentType... types);
 
     enum EnrichmentType {
         COUNTRIES,
         GENRES,
         REVIEWS
+
     }
 
 }

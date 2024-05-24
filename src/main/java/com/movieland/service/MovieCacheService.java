@@ -1,7 +1,6 @@
 package com.movieland.service;
 
 import com.movieland.dto.MovieDto;
-import com.movieland.entity.Movie;
 
 public interface MovieCacheService {
 

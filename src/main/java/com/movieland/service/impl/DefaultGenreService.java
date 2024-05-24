@@ -18,11 +18,13 @@ public class DefaultGenreService implements GenreService {
     private final GenresCache genresCache;
 
     private final GenreRepository genreRepository;
+//    private final GenreMapper genreMapper;
 
 
     @Override
     public List<GenreDto> findAll() {
         return genresCache.findAll();
+//        return genreMapper.toGenreDto(genreRepository.findAll());
     }
 
     @Override

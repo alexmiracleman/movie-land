@@ -26,7 +26,7 @@ public class MovieDto {
 
     private String picturePath;
 
-    private List<Country> countries;
+    private List<CountryDto> countries;
 
     private List<GenreDto> genres;
 

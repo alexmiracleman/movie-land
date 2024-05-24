@@ -16,19 +16,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
-import static com.movieland.service.MovieEnrichmentService.EnrichmentType.*;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class DefaultMovieService implements MovieService {
-
-    private static final Lock LOCK = new ReentrantLock();
-
 
     private final MovieRepository movieRepository;
     private final CurrencyConverterService currencyConverterService;
@@ -36,9 +29,6 @@ public class DefaultMovieService implements MovieService {
     private final CountryService countryService;
     private final MovieCacheService movieCacheService;
     private final MovieMapper movieMapper;
-
-    private final ReviewService reviewService;
-    private final MovieEnrichmentService movieEnrichmentService;
 
 
     @Override
@@ -73,36 +63,7 @@ public class DefaultMovieService implements MovieService {
             }
             return movieDto;
         }
-
-        Movie movie = null;
-
-        LOCK.lock();
-        try {
-            movie = findByIdInDb(movieId);
-        } finally {
-            LOCK.unlock();
-        }
-
-        if (movie == null) {
-            return null;
-        }
-
-        movieEnrichmentService.enrich(movie, GENRES, COUNTRIES, REVIEWS);
-
-        movieDto = movieMapper.toMovieDto(movie);
-
-        movieCacheService.addMovieToCache(movieId, movieDto);
-
-        if (currency != null) {
-            movieDto = adjustCurrency(movieDto, currency);
-        }
-
-        return movieDto;
-    }
-
-    public Movie findByIdInDb(int movieId) {
-        Optional<Movie> movieOptional = movieRepository.findById(movieId);
-        return movieOptional.orElse(null);
+        return null;
     }
 
     public MovieDto adjustCurrency(MovieDto movieDto, Currency currency) {

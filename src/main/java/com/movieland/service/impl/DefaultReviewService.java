@@ -4,6 +4,7 @@ import com.movieland.dto.ReviewToSaveDto;
 import com.movieland.entity.Movie;
 import com.movieland.entity.Review;
 import com.movieland.entity.User;
+import com.movieland.repository.MovieRepository;
 import com.movieland.repository.ReviewRepository;
 import com.movieland.service.MovieService;
 import com.movieland.service.ReviewService;
@@ -20,7 +21,8 @@ import static com.movieland.service.impl.AuthenticationService.BEARER;
 @AllArgsConstructor
 public class DefaultReviewService implements ReviewService {
 
-    private final MovieService movieService;
+//    private final MovieService movieService;
+    private final MovieRepository movieRepository;
     private final JwtService jwtService;
     private final UserService userService;
     private final ReviewRepository reviewRepository;
@@ -29,7 +31,7 @@ public class DefaultReviewService implements ReviewService {
     public void saveReview(ReviewToSaveDto reviewToSaveDto, String authHeader) {
         String token = authHeader.replaceFirst(BEARER, StringUtils.EMPTY);
         User user = userService.findByEmail(jwtService.extractUsername(token));
-        Movie movie = movieService.getByReferenceId(reviewToSaveDto.getMovieId());
+        Movie movie = movieRepository.getReferenceById(reviewToSaveDto.getMovieId());
 
         Review review = Review.builder()
                 .movie(movie)

@@ -27,6 +27,6 @@ public interface MovieService {
     void deleteMovie(int id);
 
     Movie getByReferenceId(int movieId);
-
-    Movie findByIdInDb(int movieId);
+//
+//    MovieDto findByIdInDb(int movieId);
 }

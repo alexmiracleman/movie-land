@@ -15,7 +15,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer>, MovieRep
     @Query(value = "SELECT * FROM movies ORDER BY random() LIMIT 3", nativeQuery = true)
     List<Movie> findThreeRandomMovies();
 
-    @EntityGraph(attributePaths = {"countries", "genres", "reviews"})
-    Optional<Movie> findById(int movieId);
+//    @EntityGraph(attributePaths = {"countries", "genres", "reviews"})
+//    Optional<Movie> findById(int movieId);
 
 }

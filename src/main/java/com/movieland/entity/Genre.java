@@ -1,8 +1,10 @@
 package com.movieland.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.util.List;
 
@@ -12,6 +14,7 @@ import java.util.List;
 @Setter
 @Builder
 @Entity
+@Cache(usage= CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "genres")
 public class Genre {
 
