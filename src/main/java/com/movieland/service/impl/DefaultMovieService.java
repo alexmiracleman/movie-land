@@ -58,7 +58,7 @@ public class DefaultMovieService implements MovieService {
 
         if (movieDto != null) {
             if (currency != null) {
-                movieDto = adjustCurrency(movieDto, currency);
+                movieDto = convertCurrency(movieDto, currency);
                 return movieDto;
             }
             return movieDto;
@@ -66,7 +66,7 @@ public class DefaultMovieService implements MovieService {
         return null;
     }
 
-    public MovieDto adjustCurrency(MovieDto movieDto, Currency currency) {
+    public MovieDto convertCurrency(MovieDto movieDto, Currency currency) {
         double price = currencyConverterService.convertFromUah(movieDto.getPrice(), currency);
         movieDto.setPrice(price);
         return movieDto;

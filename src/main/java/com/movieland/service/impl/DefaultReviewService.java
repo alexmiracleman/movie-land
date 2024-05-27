@@ -11,6 +11,7 @@ import com.movieland.service.ReviewService;
 import com.movieland.service.UserService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class DefaultReviewService implements ReviewService {
         String token = authHeader.replaceFirst(BEARER, StringUtils.EMPTY);
         User user = userService.findByEmail(jwtService.extractUsername(token));
         Movie movie = movieRepository.getReferenceById(reviewToSaveDto.getMovieId());
-
+//        Movie movie = movieService.getByReferenceId(reviewToSaveDto.getMovieId());
         Review review = Review.builder()
                 .movie(movie)
                 .user(user)
