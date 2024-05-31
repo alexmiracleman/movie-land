@@ -6,12 +6,10 @@ import com.movieland.entity.Review;
 import com.movieland.entity.User;
 import com.movieland.repository.MovieRepository;
 import com.movieland.repository.ReviewRepository;
-import com.movieland.service.MovieService;
 import com.movieland.service.ReviewService;
 import com.movieland.service.UserService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +20,6 @@ import static com.movieland.service.impl.AuthenticationService.BEARER;
 @AllArgsConstructor
 public class DefaultReviewService implements ReviewService {
 
-//    private final MovieService movieService;
     private final MovieRepository movieRepository;
     private final JwtService jwtService;
     private final UserService userService;
@@ -33,7 +30,7 @@ public class DefaultReviewService implements ReviewService {
         String token = authHeader.replaceFirst(BEARER, StringUtils.EMPTY);
         User user = userService.findByEmail(jwtService.extractUsername(token));
         Movie movie = movieRepository.getReferenceById(reviewToSaveDto.getMovieId());
-//        Movie movie = movieService.getByReferenceId(reviewToSaveDto.getMovieId());
+
         Review review = Review.builder()
                 .movie(movie)
                 .user(user)

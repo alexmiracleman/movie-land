@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+
+import static com.movieland.service.MovieEnrichmentService.EnrichmentType.*;
 
 
 @Service
@@ -25,6 +28,7 @@ public class DefaultMovieService implements MovieService {
 
     private final MovieRepository movieRepository;
     private final CurrencyConverterService currencyConverterService;
+    private final MovieEnrichmentService movieEnrichmentService;
     private final GenreService genreService;
     private final CountryService countryService;
     private final MovieCacheService movieCacheService;
@@ -61,6 +65,21 @@ public class DefaultMovieService implements MovieService {
                 movieDto = convertCurrency(movieDto, currency);
                 return movieDto;
             }
+            return movieDto;
+        }
+        return null;
+    }
+
+    public MovieDto findInDbAndEnrich(int movieId) {
+        Optional<Movie> movieFromDb = movieRepository.findById(movieId);
+        if (movieFromDb.isPresent()) {
+
+            MovieDto movieDto = movieMapper.toMovieDtoMultiThread(movieFromDb.get());
+
+            movieEnrichmentService.enrich(movieDto, GENRES, COUNTRIES, REVIEWS);
+
+            movieCacheService.addMovieToCache(movieId, movieDto);
+
             return movieDto;
         }
         return null;

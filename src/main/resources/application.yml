@@ -1,4 +1,9 @@
 spring:
+  config:
+    activate:
+      on-profile: "dev"
+
+
   datasource:
     username: postgres
     password: root
@@ -31,3 +36,14 @@ nbu:
     cache:
       tomorrow: "0 0 17 * * *"
       invalidate: "0 0 0 * * ?"
+
+---
+
+
+spring:
+  profiles: dev
+
+---
+
+spring:
+  profiles: prod

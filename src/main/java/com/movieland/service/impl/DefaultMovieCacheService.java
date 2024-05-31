@@ -1,30 +1,30 @@
 package com.movieland.service.impl;
 
 import com.movieland.dto.MovieDto;
-import com.movieland.entity.Movie;
-import com.movieland.mapper.MovieMapper;
-import com.movieland.repository.MovieRepository;
 import com.movieland.service.MovieCacheService;
-import com.movieland.service.MovieEnrichmentService;
-import lombok.RequiredArgsConstructor;
+import com.movieland.service.MovieService;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.lang.ref.SoftReference;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static com.movieland.service.MovieEnrichmentService.EnrichmentType.*;
 
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
+@Primary
 public class DefaultMovieCacheService implements MovieCacheService {
 
-    private final MovieRepository movieRepository;
-    private final MovieMapper movieMapper;
-    private final MovieEnrichmentService movieEnrichmentService;
+    MovieService movieService;
+
+    @Autowired
+    public DefaultMovieCacheService(@Lazy MovieService movieService) {
+        this.movieService = movieService;
+    }
 
     private final ConcurrentHashMap<Integer, SoftReference<MovieDto>> listReference = new ConcurrentHashMap<>();
 
@@ -35,22 +35,7 @@ public class DefaultMovieCacheService implements MovieCacheService {
             return listReference.get(movieId).get();
         }
         log.info("Enriching cache from db for movieId {}", movieId);
-        return findInDbAndEnrich(movieId);
-    }
-
-    private MovieDto findInDbAndEnrich(int movieId) {
-        Optional<Movie> movieFromDb = movieRepository.findById(movieId);
-        if (movieFromDb.isPresent()) {
-
-            MovieDto movieDto = movieMapper.toMovieDtoMultiThread(movieFromDb.get());
-
-            movieEnrichmentService.enrich(movieDto, GENRES, COUNTRIES, REVIEWS);
-
-            addMovieToCache(movieId, movieDto);
-
-            return movieDto;
-        }
-        return null;
+        return movieService.findInDbAndEnrich(movieId);
     }
 
     @Override
