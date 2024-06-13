@@ -7,6 +7,7 @@ import com.movieland.entity.Movie;
 import com.movieland.mapper.MovieMapper;
 import com.movieland.repository.MovieRepository;
 import com.movieland.service.*;
+import com.movieland.util.SoftReferenceCache;
 import com.movieland.web.controller.validation.SortOrderPrice;
 import com.movieland.web.controller.validation.SortOrderRating;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +32,8 @@ public class DefaultMovieService implements MovieService {
     private final MovieEnrichmentService movieEnrichmentService;
     private final GenreService genreService;
     private final CountryService countryService;
-    private final MovieCacheService movieCacheService;
     private final MovieMapper movieMapper;
+    private final SoftReferenceCache movieCacheService;
 
 
     @Override
@@ -58,7 +59,7 @@ public class DefaultMovieService implements MovieService {
     @Override
     public MovieDto findMovieById(int movieId, Currency currency) {
 
-        MovieDto movieDto = movieCacheService.getMovieFromCache(movieId);
+        MovieDto movieDto = (MovieDto) movieCacheService.get(movieId);
 
         if (movieDto != null) {
             if (currency != null) {
@@ -76,9 +77,7 @@ public class DefaultMovieService implements MovieService {
 
             MovieDto movieDto = movieMapper.toMovieDtoMultiThread(movieFromDb.get());
 
-            movieEnrichmentService.enrich(movieDto, GENRES, COUNTRIES, REVIEWS);
-
-            movieCacheService.addMovieToCache(movieId, movieDto);
+            movieEnrichmentService.enrich(movieDto, GENRES);
 
             return movieDto;
         }
@@ -145,7 +144,7 @@ public class DefaultMovieService implements MovieService {
             movie.setCountries(countryService.findAllById(movieModifyDto.getCountries()));
         }
         movieRepository.save(movie);
-        movieCacheService.addMovieToCache(id, movieMapper.toMovieDto(movie));
+        movieCacheService.put(id, movieMapper.toMovieDto(movie));
     }
 
     @Override

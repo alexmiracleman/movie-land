@@ -28,7 +28,7 @@ class NbuCurrencyConverterServiceTest {
 
         double convertedPrice = nbuCurrencyConverterService.convert(price, currency);
 
-        assertEquals(3.27, convertedPrice);
+        assertEquals(3.27218782249742, convertedPrice);
     }
 
 

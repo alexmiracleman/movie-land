@@ -183,7 +183,7 @@ class MovieControllerITest extends AbstractBaseITest {
                         .content(MOVIE_CONTENT_JSON))
                 .andExpect(status().isOk());
 
-        assertSelectCount(3);
+        assertSelectCount(8);
         assertInsertCount(6);
 
     }

@@ -10,22 +10,17 @@ import com.movieland.service.MovieEnrichmentService;
 import com.movieland.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 @Slf4j
 @Service
-@Profile("prod")
 @RequiredArgsConstructor
 public class DefaultMovieEnrichmentService implements MovieEnrichmentService {
 
-    private final static int TIMEOUT = 5;
 
-    private final ExecutorService executorService;
     private final GenreService genreService;
     private final CountryService countryService;
     private final ReviewService reviewService;
