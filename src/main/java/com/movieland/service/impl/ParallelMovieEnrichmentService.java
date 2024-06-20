@@ -4,6 +4,9 @@ import com.movieland.dto.CountryDto;
 import com.movieland.dto.GenreDto;
 import com.movieland.dto.MovieDto;
 import com.movieland.dto.ReviewDto;
+import com.movieland.entity.Country;
+import com.movieland.entity.Genre;
+import com.movieland.entity.Review;
 import com.movieland.mapper.CountryMapper;
 import com.movieland.mapper.GenreMapper;
 import com.movieland.mapper.ReviewMapper;
@@ -45,33 +48,33 @@ public class ParallelMovieEnrichmentService implements MovieEnrichmentService {
 
         Runnable enrichMovieWithGenres = () -> {
             System.out.println("Thread# " + Thread.currentThread().getName());
-            List<GenreDto> genres = genreMapper.toGenreDto(genreService.findAllByMovieId(movieDto.getId()));
+            List<Genre> genres = genreService.findAllByMovieId(movieDto.getId());
             if (Thread.currentThread().isInterrupted()) {
-                System.out.println("The genres enrichment has been interrupted due to timeout!");
+                log.info("The genres enrichment has been interrupted due to timeout!");
                 return;
             }
-            movieDto.setGenres(genres);
+            movieDto.setGenres(genreMapper.toGenreDto(genres));
 
         };
 
         Runnable enrichMovieWithCountries = () -> {
             System.out.println("Thread# " + Thread.currentThread().getName());
-            List<CountryDto> countries = countryMapper.toCountryDto(countryService.findAllByMovieId(movieDto.getId()));
+            List<Country> countries = countryService.findAllByMovieId(movieDto.getId());
             if (Thread.currentThread().isInterrupted()) {
-                System.out.println("The countries enrichment has been interrupted due to timeout!");
+                log.info("The countries enrichment has been interrupted due to timeout!");
                 return;
             }
-            movieDto.setCountries(countries);
+            movieDto.setCountries(countryMapper.toCountryDto(countries));
         };
 
         Runnable enrichMovieWithReviews = () -> {
             System.out.println("Thread# " + Thread.currentThread().getName());
-            List<ReviewDto> reviews = reviewMapper.toReviewDto(reviewService.findAllByMovieId(movieDto.getId()));
+            List<Review> reviews = reviewService.findAllByMovieId(movieDto.getId());
             if (Thread.currentThread().isInterrupted()) {
-                System.out.println("The reviews enrichment has been interrupted due to timeout!");
+                log.info("The reviews enrichment has been interrupted due to timeout!");
                 return;
             }
-            movieDto.setReviews(reviews);
+            movieDto.setReviews(reviewMapper.toReviewDto(reviews));
         };
 
         List<Runnable> taskList = new ArrayList<>();

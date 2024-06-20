@@ -20,4 +20,6 @@ public interface MovieMapper {
     @Mapping(target = "countries", ignore = true)
     @Mapping(target = "genres", ignore = true)
     MovieDto toMovieDtoMultiThread(Movie movie);
+
+    MovieDto toMovieDtoCurrencySet(MovieDto movieDto);
 }

@@ -33,7 +33,8 @@ public class DefaultMovieService implements MovieService {
     private final GenreService genreService;
     private final CountryService countryService;
     private final MovieMapper movieMapper;
-    private final SoftReferenceCache movieCacheService;
+    private final SoftReferenceCache<Integer, MovieDto> movieCacheService;
+
 
 
     @Override
@@ -59,12 +60,13 @@ public class DefaultMovieService implements MovieService {
     @Override
     public MovieDto findMovieById(int movieId, Currency currency) {
 
-        MovieDto movieDto = (MovieDto) movieCacheService.get(movieId);
+        MovieDto movieDto = movieCacheService.get(movieId);
 
         if (movieDto != null) {
             if (currency != null) {
-                movieDto = convertCurrency(movieDto, currency);
-                return movieDto;
+                MovieDto movieDtoWithRequestedCurrency = movieMapper.toMovieDtoCurrencySet(movieDto);
+                convertCurrency(movieDtoWithRequestedCurrency, currency);
+                return movieDtoWithRequestedCurrency;
             }
             return movieDto;
         }
@@ -84,10 +86,9 @@ public class DefaultMovieService implements MovieService {
         return null;
     }
 
-    public MovieDto convertCurrency(MovieDto movieDto, Currency currency) {
-        double price = currencyConverterService.convertFromUah(movieDto.getPrice(), currency);
+    public void convertCurrency(MovieDto movieDto, Currency currency) {
+        double price = currencyConverterService.convert(movieDto.getPrice(), currency);
         movieDto.setPrice(price);
-        return movieDto;
     }
 
 
