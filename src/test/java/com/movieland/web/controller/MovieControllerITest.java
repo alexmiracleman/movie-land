@@ -114,7 +114,7 @@ class MovieControllerITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movies_genres.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    public void testMoviesByGenre() throws Exception {
+    public void testGetMoviesByGenre() throws Exception {
         SQLStatementCountValidator.reset();
         mockMvc.perform(get(ALL_MOVIES_BY_GENRE_CRIME_API)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -126,7 +126,7 @@ class MovieControllerITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movies_genres.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    public void testMoviesByGenrePriceAscending() throws Exception {
+    public void testGetMoviesByGenrePriceAscending() throws Exception {
         SQLStatementCountValidator.reset();
         mockMvc.perform(get(ALL_MOVIES_BY_GENRE_DRAMA_PRICE_ASC_API)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -138,7 +138,7 @@ class MovieControllerITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movies_genres.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    public void testMoviesByGenrePriceDescending() throws Exception {
+    public void testGetMoviesByGenrePriceDescending() throws Exception {
         SQLStatementCountValidator.reset();
         mockMvc.perform(get(ALL_MOVIES_BY_GENRE_DRAMA_PRICE_DESC_API)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -150,7 +150,7 @@ class MovieControllerITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movies_genres.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    public void testMoviesByGenreRatingDescending() throws Exception {
+    public void testGetMoviesByGenreRatingDescending() throws Exception {
         SQLStatementCountValidator.reset();
         mockMvc.perform(get(ALL_MOVIES_BY_GENRE_DRAMA_RATING_DESC_API)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -187,4 +187,24 @@ class MovieControllerITest extends AbstractBaseITest {
         assertInsertCount(6);
 
     }
+
+    @Test
+    @DataSet(value = "datasets/movies_genres_countries_reviews_users.yml",
+            cleanAfter = true,
+            cleanBefore = true, skipCleaningFor = "flyway_schema_history")
+    public void testGetMovieByIdFromDbThenGetItFromCacheExpectOneSelectCount() throws Exception {
+        SQLStatementCountValidator.reset();
+        mockMvc.perform(get(FIND_MOVIE_BY_ID_API)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(getResponseAsString(FIND_MOVIE_BY_ID_ONE_JSON), true));
+
+        mockMvc.perform(get(FIND_MOVIE_BY_ID_API)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(getResponseAsString(FIND_MOVIE_BY_ID_ONE_JSON), true));
+
+        assertSelectCount(1);
+    }
+
 }

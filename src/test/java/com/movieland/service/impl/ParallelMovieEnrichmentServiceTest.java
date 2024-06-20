@@ -10,8 +10,6 @@ import com.movieland.service.ReviewService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.mockito.internal.stubbing.answers.AnswersWithDelay;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +18,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static com.movieland.service.MovieEnrichmentService.EnrichmentType.*;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -59,12 +55,6 @@ class ParallelMovieEnrichmentServiceTest {
     private List<Country> countries;
     private List<Review> reviews;
 
-    private List<Genre> genresSleep(List<Genre> genreList) throws InterruptedException {
-        TimeUnit.MILLISECONDS.sleep(10000);
-        return genreList;
-    }
-
-
     @BeforeEach
     void setUp() {
 
@@ -87,7 +77,6 @@ class ParallelMovieEnrichmentServiceTest {
 
     @Test
     public void enrichMovieWithGenresOnly() {
-
 
         when(genreService.findAllByMovieId(1)).thenReturn(genres);
         when(countryService.findAllByMovieId(1)).thenReturn(countries);
@@ -134,14 +123,22 @@ class ParallelMovieEnrichmentServiceTest {
     }
 
     @Test
-    public void enrichMovieWithGenresCountriesAndReviewsGetTimeoutException() throws InterruptedException {
-
-//        when(genreService.findAllByMovieId(1)).thenReturn(genres);
+    public void enrichMovieWithGenresCountriesAndReviewsGetGenresTimeoutException() throws InterruptedException {
 
         when(genreService.findAllByMovieId(1)).thenAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
-                Thread.sleep(10000);
+                long start = System.currentTimeMillis();
+                int sum = 0;
+                for (int i = 0; i < 20_000; i++) {
+                    for (int i1 = 0; i1 < 10_000_00; i1++) {
+                        sum += i + i1;
+                    }
+                }
+
+                System.out.println(sum);
+
+                System.out.println(System.currentTimeMillis() - start);
                 return genres;
             }
         });
@@ -150,14 +147,71 @@ class ParallelMovieEnrichmentServiceTest {
         when(reviewService.findAllByMovieId(1)).thenReturn(reviews);
 
         parallelMovieEnrichmentService.enrich(movieDto, GENRES, COUNTRIES, REVIEWS);
-
-        Assertions.assertEquals(1, movieDto.getGenres().size());
+        Thread.sleep(10000);
+        Assertions.assertNull(movieDto.getGenres());
         Assertions.assertEquals(1, movieDto.getCountries().size());
+        Assertions.assertEquals(1, movieDto.getReviews().size());
+
+    }
+    @Test
+    public void enrichMovieWithGenresCountriesAndReviewsGetGenresAndCountriesTimeoutException() throws InterruptedException {
+
+        when(genreService.findAllByMovieId(1)).thenAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                long start = System.currentTimeMillis();
+                int sum = 0;
+                for (int i = 0; i < 20_000; i++) {
+                    for (int i1 = 0; i1 < 10_000_00; i1++) {
+                        sum += i + i1;
+                    }
+                }
+
+                System.out.println(sum);
+
+                System.out.println(System.currentTimeMillis() - start);
+                return genres;
+            }
+        });
+
+        when(countryService.findAllByMovieId(1)).thenAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                long start = System.currentTimeMillis();
+                int sum = 0;
+                for (int i = 0; i < 20_000; i++) {
+                    for (int i1 = 0; i1 < 10_000_00; i1++) {
+                        sum += i + i1;
+                    }
+                }
+
+                System.out.println(sum);
+
+                System.out.println(System.currentTimeMillis() - start);
+                return countries;
+            }
+        });
+        when(reviewService.findAllByMovieId(1)).thenReturn(reviews);
+
+        parallelMovieEnrichmentService.enrich(movieDto, GENRES, COUNTRIES, REVIEWS);
+        Thread.sleep(10000);
+        Assertions.assertNull(movieDto.getGenres());
+        Assertions.assertNull(movieDto.getCountries());
         Assertions.assertEquals(1, movieDto.getReviews().size());
 
     }
 
 
-
+//    public static void main(String[] args) {
+//        long start = System.currentTimeMillis();
+//        int sum = 0;
+//        for (int i = 0; i < 20_000; i++) {
+//            for (int i1 = 0; i1 < 10_000_00; i1++) {
+//                sum += i + i1;
+//            }
+//        }
+//        System.out.println(sum);
+//        System.out.println(System.currentTimeMillis() - start);
+//    }
 
 }

@@ -77,7 +77,7 @@ public class DefaultMovieService implements MovieService {
 
             MovieDto movieDto = movieMapper.toMovieDtoMultiThread(movieFromDb.get());
 
-            movieEnrichmentService.enrich(movieDto, GENRES);
+            movieEnrichmentService.enrich(movieDto, GENRES, COUNTRIES, REVIEWS);
 
             return movieDto;
         }

@@ -44,17 +44,33 @@ public class ParallelMovieEnrichmentService implements MovieEnrichmentService {
         List<EnrichmentType> list = Arrays.stream(types).toList();
 
         Runnable enrichMovieWithGenres = () -> {
+            System.out.println("Thread# " + Thread.currentThread().getName());
             List<GenreDto> genres = genreMapper.toGenreDto(genreService.findAllByMovieId(movieDto.getId()));
+            if (Thread.currentThread().isInterrupted()) {
+                System.out.println("The genres enrichment has been interrupted due to timeout!");
+                return;
+            }
             movieDto.setGenres(genres);
+
         };
 
         Runnable enrichMovieWithCountries = () -> {
+            System.out.println("Thread# " + Thread.currentThread().getName());
             List<CountryDto> countries = countryMapper.toCountryDto(countryService.findAllByMovieId(movieDto.getId()));
+            if (Thread.currentThread().isInterrupted()) {
+                System.out.println("The countries enrichment has been interrupted due to timeout!");
+                return;
+            }
             movieDto.setCountries(countries);
         };
 
         Runnable enrichMovieWithReviews = () -> {
+            System.out.println("Thread# " + Thread.currentThread().getName());
             List<ReviewDto> reviews = reviewMapper.toReviewDto(reviewService.findAllByMovieId(movieDto.getId()));
+            if (Thread.currentThread().isInterrupted()) {
+                System.out.println("The reviews enrichment has been interrupted due to timeout!");
+                return;
+            }
             movieDto.setReviews(reviews);
         };
 
@@ -66,7 +82,7 @@ public class ParallelMovieEnrichmentService implements MovieEnrichmentService {
         if (list.contains(EnrichmentType.COUNTRIES)) {
             taskList.add(enrichMovieWithCountries);
         }
-;        if (list.contains(EnrichmentType.REVIEWS)) {
+        if (list.contains(EnrichmentType.REVIEWS)) {
             taskList.add(enrichMovieWithReviews);
         }
 
