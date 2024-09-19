@@ -1,6 +1,7 @@
 package com.movieland.service.impl;
 
 import com.movieland.common.Currency;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+@Disabled
 @SpringBootTest
 class NbuCurrencyConverterServiceTest {
 

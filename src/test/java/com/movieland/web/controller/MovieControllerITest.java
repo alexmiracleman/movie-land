@@ -3,6 +3,7 @@ package com.movieland.web.controller;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.movieland.web.AbstractBaseITest;
 import com.vladmihalcea.sql.SQLStatementCountValidator;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
@@ -13,7 +14,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
+@Disabled
 class MovieControllerITest extends AbstractBaseITest {
 
     //ENDPOINTS

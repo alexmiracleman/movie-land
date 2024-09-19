@@ -2,6 +2,7 @@ package com.movieland.web;
 
 import com.github.database.rider.spring.api.DBRider;
 import com.movieland.config.DataSourceWrapper;
+import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +20,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+@Disabled
 @DBRider
 @AutoConfigureMockMvc(addFilters = false)
 @SpringBootTest

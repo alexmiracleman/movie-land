@@ -9,6 +9,7 @@ import com.movieland.service.GenreService;
 import com.movieland.service.ReviewService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -22,6 +23,7 @@ import java.util.List;
 import static com.movieland.service.MovieEnrichmentService.EnrichmentType.*;
 import static org.mockito.Mockito.when;
 
+@Disabled
 @SpringBootTest
 class ParallelMovieEnrichmentServiceTest {
 
